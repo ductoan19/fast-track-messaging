@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAYjf7QqgOn0W1UN4vwOFLQwAAAAACAAAAAAAQZgAAAAEAACAAAABT8msiocpdFUpzw5Fh0jbaFdD5VwKkhaBkPjvh8AWKhwAAAAAOgAAAAAIAACAAAAC7BornXjgKr5h58O2UJTnrU0x7UqLIkk4klUCGaEC9ZoAAAAA1LAtQKwMPL/B8B/aRsBCnuLyPU2Z0JW57nxrG7G2lXVLDTgYi2w7pps8JlY7TJ8pa3LyVRpFlSD+GirScIWnHp1TjMiQe6lodTWeb7jP4Z3w7WdCQ2f4hCDF65uq+LGFvpeAgTQypdGlSTkaAaFcoy/EXCRwlY5+UPJ1W5SSc9UAAAABnCLEZCt10AE/CtyXi6V0ClvhUEEM6UC0IXu/OIyBDKg9wHBCrcFgjbiHvfz8Sl4P7NfJGTxFS++ZUHyS007JG</EncryptedPassword>
+    <_PublishTargetUrl>ftps://waws-prod-sy3-101.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
+    <History>True|2023-10-30T10:18:16.1606726Z;False|2023-10-30T17:17:05.8043277+07:00;False|2023-10-30T17:15:12.8330687+07:00;True|2023-10-30T16:59:17.1396997+07:00;True|2023-10-30T16:43:57.1605336+07:00;True|2023-10-03T02:19:18.9193538+07:00;True|2023-10-02T23:24:18.9290117+07:00;False|2023-10-02T23:23:13.7687221+07:00;True|2023-10-02T23:18:29.4281563+07:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>10/02/2023 16:33:54</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>10/30/2023 17:09:31</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Authentication.JwtBearer.dll">
+      <publishTime>10/21/2023 00:31:12</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.OpenApi.dll">
+      <publishTime>07/15/2023 09:54:08</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Abstractions.dll">
+      <publishTime>10/17/2023 09:21:10</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>10/17/2023 08:53:36</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Logging.dll">
+      <publishTime>10/17/2023 08:55:48</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.dll">
+      <publishTime>01/20/2022 05:30:48</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.OpenIdConnect.dll">
+      <publishTime>01/20/2022 05:38:34</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>10/17/2023 09:01:54</publishTime>
+    </File>
+    <File Include="Microsoft.OpenApi.dll">
+      <publishTime>09/26/2022 19:32:38</publishTime>
+    </File>
+    <File Include="my-app-backend.deps.json">
+      <publishTime>10/30/2023 17:17:31</publishTime>
+    </File>
+    <File Include="my-app-backend.dll">
+      <publishTime>10/30/2023 17:17:30</publishTime>
+    </File>
+    <File Include="my-app-backend.exe">
+      <publishTime>10/30/2023 17:17:30</publishTime>
+    </File>
+    <File Include="my-app-backend.pdb">
+      <publishTime>10/30/2023 17:17:30</publishTime>
+    </File>
+    <File Include="my-app-backend.runtimeconfig.json">
+      <publishTime>10/30/2023 16:42:52</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>01/11/2023 13:48:22</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>01/11/2023 13:48:26</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
+      <publishTime>01/11/2023 13:49:02</publishTime>
+    </File>
+    <File Include="System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>10/17/2023 08:52:14</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>10/30/2023 17:18:01</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
