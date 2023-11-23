@@ -48,7 +48,21 @@ ng serve --open
 ```
 Enjoy!
 
-# 4. Home work
+# 5. whole secrets.json
+```
+{
+  "BookReadDatabaseSettings": {
+    "ConnectionString": "mongodb://localhost:27017",
+    "DatabaseName": "book_read",
+    "BooksCollectionName": "books"
+  },
+  "BookWriteDatabaseSettings": {
+    "ConnectionString": "Server=.,5433;Database=post_write;User Id=sa;Password=Admin@123;TrustServerCertificate=True"
+  }
+}
+```
+
+# 6. Home work
 Base on the feature in [this page](https://ambitious-bay-0a6b5df00.4.azurestaticapps.net), implement the feature: update book, delete book, view statistic (number of create & update & delete performed)
 
 
