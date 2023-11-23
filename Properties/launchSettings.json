@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "https": {
+    "my-app-backend": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
