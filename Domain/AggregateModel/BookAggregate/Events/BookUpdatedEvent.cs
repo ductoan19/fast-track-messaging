@@ -1,10 +1,8 @@
-﻿using my_app_backend.Domain.SeedWork.Models;
-
-namespace my_app_backend.Domain.AggregateModel.BookAggregate
+﻿namespace my_app_backend.Domain.AggregateModel.BookAggregate.Events
 {
-    public class Book
+    public class BookUpdatedEvent
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public int Quantity { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
