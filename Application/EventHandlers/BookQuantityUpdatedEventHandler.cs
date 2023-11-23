@@ -35,6 +35,7 @@ namespace my_app_backend.Application.EventHandlers
                     CreatedDate = notification.CreateDate,
                     Note = notification.Note
                 });
+                book.Quantity += notification.Quantity * notification.Direction;
                 book.InventoryHistories = histories;
 
                 var updateRs = await _bookRepository.Update(book);

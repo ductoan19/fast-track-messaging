@@ -12,6 +12,8 @@
     <Compile Remove="Controllers\StatisticController.cs" />
     <Compile Remove="Domain\AggregateModel\BookAggregate\Events\BookDeletedEvent.cs" />
     <Compile Remove="Domain\AggregateModel\BookAggregate\Events\BookUpdatedEvent.cs" />
+    <Compile Remove="Models\StatisticDto.cs" />
+    <Compile Remove="Models\UpdateBookReq.cs" />
   </ItemGroup>
 
   <ItemGroup>
