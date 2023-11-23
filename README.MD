@@ -66,3 +66,5 @@ Enjoy!
 Base on the feature in [this page](https://ambitious-bay-0a6b5df00.4.azurestaticapps.net), implement the feature: update book, delete book, view statistic (number of create & update & delete performed)
 
 
+
+
