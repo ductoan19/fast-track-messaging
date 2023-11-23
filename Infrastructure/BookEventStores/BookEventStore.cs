@@ -1,6 +1,9 @@
 ﻿using Dapper;
+using MediatR;
+using Microsoft.Extensions.Options;
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.AggregateModel.BookAggregate.Events;
+using my_app_backend.Infrastructure.QueryRepositories;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
 
@@ -8,7 +11,14 @@ namespace my_app_backend.Infrastructure.Store
 {
     public class BookEventStore : IBookEventStore
     {
-        private string _writeConnectionString = "Server=.,5433;Database=post_write;User Id=sa;Password=Admin@123;TrustServerCertificate=True";
+        private string _writeConnectionString;
+        private readonly IMediator _mediator;
+
+        public BookEventStore(IOptions<BookWriteDatabaseSettings> bookStoreDatabaseSettings, IMediator mediator)
+        {
+            _writeConnectionString = bookStoreDatabaseSettings.Value.ConnectionString;
+            _mediator = mediator;
+        }
 
         public async Task<BookAggregate> Get(Guid id)
         {
@@ -64,7 +74,8 @@ namespace my_app_backend.Infrastructure.Store
                     {
                         var insertAggregateCmd = "INSERT INTO post_write.dbo.BookAggregate(Id, Version, CreatedDate, ModifiedDate) VALUES (@Id, @Version, @CreatedDate, @ModifiedDate);";
                         await connection.ExecuteAsync(insertAggregateCmd, aggregate, transaction: trans);
-                    } else
+                    }
+                    else
                     {
                         var updateAggregateCmd = "UPDATE BookAggregate SET Version=@Version, ModifiedDate=@ModifiedDate WHERE Id=@Id;";
                         await connection.ExecuteAsync(updateAggregateCmd, aggregate, transaction: trans);
@@ -84,6 +95,12 @@ namespace my_app_backend.Infrastructure.Store
                     {
                         await connection.ExecuteAsync(insertEventCmd, se, transaction: trans);
                     }
+
+                    foreach (var e in events)
+                    {
+                        await _mediator.Publish(e);
+                    }
+
                     trans.Commit();
                 }
                 catch

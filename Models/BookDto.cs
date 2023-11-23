@@ -8,5 +8,7 @@
         public string Name { get; set; }
         public string Author { get; set; }
         public bool Locked { get; set; }
+
+        public IEnumerable<BookInventoryHistoryDto> InventoryHistories { get; set; }
     }
 }

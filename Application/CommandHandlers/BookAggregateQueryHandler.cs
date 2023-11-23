@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using my_app_backend.Application.Queries;
+using my_app_backend.Application.Commands;
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.SeedWork.Models;
 
-namespace my_app_backend.Application.QueryHandlers
+namespace my_app_backend.Application.CommandHandlers
 {
     public class BookAggregateQueryHandler : IRequestHandler<BookAggregateQuery, Result<BookAggregate>>
     {

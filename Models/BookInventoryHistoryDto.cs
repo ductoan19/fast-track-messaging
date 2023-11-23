@@ -2,8 +2,7 @@
 {
     public class BookInventoryHistoryDto
     {
-        public int Id { get; set; }
-        public int BookId { get; set; }
+        public Guid Id { get; set; }
         public int Quantity { get; set; }
         public int Direction { get; set; }
         public string Note { get; set; }

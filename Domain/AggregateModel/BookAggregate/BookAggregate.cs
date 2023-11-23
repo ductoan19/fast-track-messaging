@@ -17,7 +17,7 @@ namespace my_app_backend.Domain.AggregateModel.BookAggregate
         {
             var @event = new BookCreatedEvent
             {
-                Id = this.Id,
+                BookId = this.Id,
                 Name = name,
                 Author = author,
                 Type = type,
@@ -33,6 +33,7 @@ namespace my_app_backend.Domain.AggregateModel.BookAggregate
         {
             var @event = new BookQuantityUpdatedEvent
             {
+                BookId = this.Id,
                 Quantity = quantity,
                 Direction = direction,
                 Note = note

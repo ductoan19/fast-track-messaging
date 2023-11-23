@@ -1,6 +1,8 @@
-﻿namespace my_app_backend.Domain.AggregateModel.BookAggregate.Events
+﻿using MediatR;
+
+namespace my_app_backend.Domain.AggregateModel.BookAggregate.Events
 {
-    public interface IBookEvent
+    public interface IBookEvent : INotification
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

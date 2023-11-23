@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using my_app_backend.Application.Commands;
-using my_app_backend.Application.Queries;
+using my_app_backend.Application.QueryRepositories;
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.SeedWork.Models;
 using my_app_backend.Models;
@@ -11,22 +11,43 @@ namespace my_app_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class BookController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IBookRepository _bookRepository;
 
-        public BookController(IMediator mediator)
+        public BookController(IMediator mediator, IBookRepository bookRepository)
         {
             _mediator = mediator;
+            _bookRepository = bookRepository;
         }
 
         #region Read side
         //// GET api/<BookController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ApiResponse<BookAggregate>>> Get(Guid id)
+        [HttpGet("view-aggregate/{id}")]
+        public async Task<ActionResult<ApiResponse<BookAggregate>>> ViewAggregate(Guid id)
         {
             var rs = await _mediator.Send(new BookAggregateQuery { Id = id });
+            return Ok(rs.ToApiResponse());
+        }
+
+        //// GET api/<BookController>/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ApiResponse<BookDto>>> Get(Guid id)
+        {
+            var rs = await _bookRepository.GetById(id);
+
+            return Ok(rs.ToApiResponse());
+        }
+
+        // GET: api/<BookController>
+        [HttpGet("get-all")]
+        [Authorize(Roles = $"{Constants.Roles.Admin},{Constants.Roles.Normal}")]
+        public async Task<ActionResult<ApiResponse<IEnumerable<BookDto>>>> Get([FromQuery] string? name)
+        {
+            var rs = await _bookRepository.GetAll(name);
+
             return Ok(rs.ToApiResponse());
         }
         #endregion
@@ -34,7 +55,7 @@ namespace my_app_backend.Controllers
         #region Write side
         // POST api/<BookController>
         [HttpPost()]
-        //[Authorize(Roles = Constants.Roles.Admin)]
+        [Authorize(Roles = Constants.Roles.Admin)]
         public async Task<ActionResult<ApiResponse<Guid>>> Post([FromBody] CreateBookCommand command)
         {
             var rs = await _mediator.Send(command);

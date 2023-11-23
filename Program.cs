@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using my_app_backend.Application.QueryRepositories;
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.AggregateModel.BookAggregate.Events;
+using my_app_backend.Infrastructure.QueryRepositories;
 using my_app_backend.Infrastructure.Store;
 using my_app_backend.Models;
 using System.Text;
@@ -77,7 +79,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.Configure<BookWriteDatabaseSettings>(
+    builder.Configuration.GetSection("BookWriteDatabaseSettings"));
 builder.Services.AddScoped<IBookEventStore, BookEventStore>();
+
+builder.Services.Configure<BookReadDatabaseSettings>(
+    builder.Configuration.GetSection("BookReadDatabaseSettings"));
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

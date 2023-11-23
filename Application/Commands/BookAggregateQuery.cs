@@ -2,7 +2,7 @@
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.SeedWork.Models;
 
-namespace my_app_backend.Application.Queries
+namespace my_app_backend.Application.Commands
 {
     public class BookAggregateQuery : IRequest<Result<BookAggregate>>
     {
