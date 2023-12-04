@@ -19,7 +19,7 @@ namespace my_app_backend.Infrastructure.QueryRepositories
         }
 
 
-        public async Task<Result<IEnumerable<BookDto>>> GetAll(string bookName)
+        public async Task<Result<IEnumerable<BookDto>>> GetAllAsync(string bookName)
         {
             if (!string.IsNullOrWhiteSpace(bookName))
             {
@@ -35,7 +35,7 @@ namespace my_app_backend.Infrastructure.QueryRepositories
 
         }
 
-        public async Task<Result<BookDto>> GetById(Guid id)
+        public async Task<Result<BookDto>> GetByIdAsync(Guid id)
         {
             var book = await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
             if (book == null)
@@ -48,7 +48,7 @@ namespace my_app_backend.Infrastructure.QueryRepositories
             }
         }
 
-        public async Task<Result> Insert(BookDto bookDto)
+        public async Task<Result> InsertAsync(BookDto bookDto)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace my_app_backend.Infrastructure.QueryRepositories
             }
         }
 
-        public async Task<Result> Update(BookDto bookDto)
+        public async Task<Result> UpdateAsync(BookDto bookDto)
         {
             try
             {
@@ -73,6 +73,20 @@ namespace my_app_backend.Infrastructure.QueryRepositories
             catch (Exception ex)
             {
                 return Result.Error($"Exception happened for update book: {ex}");
+            }
+        }
+
+        public async Task<Result> DeleteAsync(BookDto bookDto)
+        {
+            try
+            {
+                await _booksCollection.DeleteOneAsync(x => x.Id == bookDto.Id);
+
+                return Result.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Result.Error($"Exception happened for delete book: {ex}");
             }
         }
     }

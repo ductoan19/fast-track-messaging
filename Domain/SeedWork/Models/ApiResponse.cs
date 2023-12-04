@@ -3,9 +3,9 @@
     public class ApiResponse<T>
     {
         public bool IsSuccessful { get; set; }
-        public string? ErrorCode { get; set; }
-        public string? Message { get; set; }
-        public T? Data { get; set; }
+        public string ErrorCode { get; set; }
+        public string Message { get; set; }
+        public T Data { get; set; }
 
         public static ApiResponse<T> Ok(T data)
         {

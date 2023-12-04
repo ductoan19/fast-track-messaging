@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 
 namespace my_app_backend.Application.EventHandlers
 {
-    public class PostCreatedEventHandler : INotificationHandler<BookCreatedEvent>
+    public class BookCreatedEventHandler : INotificationHandler<BookCreatedEvent>
     {
         private readonly IBookRepository _bookRepository;
-        private readonly ILogger<PostCreatedEventHandler> _logger;
-        public PostCreatedEventHandler(IBookRepository bookRepository, ILogger<PostCreatedEventHandler> logger)
+        private readonly ILogger<BookCreatedEventHandler> _logger;
+        public BookCreatedEventHandler(IBookRepository bookRepository, ILogger<BookCreatedEventHandler> logger)
         {
             _bookRepository = bookRepository;
             _logger = logger;
@@ -20,7 +20,7 @@ namespace my_app_backend.Application.EventHandlers
         {
             try
             {
-                await _bookRepository.Insert(new Models.BookDto
+                await _bookRepository.InsertAsync(new BookDto
                 {
                     Id = notification.BookId,
                     Author = notification.Author,

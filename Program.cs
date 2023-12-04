@@ -5,9 +5,9 @@ using my_app_backend.Application.QueryRepositories;
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.AggregateModel.BookAggregate.Events;
 using my_app_backend.Infrastructure.QueryRepositories;
-using my_app_backend.Infrastructure.Store;
 using my_app_backend.Models;
 using System.Text;
+using my_app_backend.Infrastructure.BookEventStores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,16 +46,7 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 // Core
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAnyOriginPolicy",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
-});
+builder.Services.AddCors(o => o.AddPolicy("all", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 // Authentication & Authorization
 builder.Services.Configure<AuthenticationSettings>(builder.Configuration.GetSection(AuthenticationSettings.OptionName));
@@ -89,15 +80,15 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseCors("AllowAnyOriginPolicy");
+app.UseCors("all");
 
 app.UseHttpsRedirection();
 

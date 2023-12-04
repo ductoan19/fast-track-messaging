@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>my_app_backend</RootNamespace>
     <UserSecretsId>05d88c63-e17c-41e3-b122-ce94b6707dd6</UserSecretsId>
@@ -10,8 +10,6 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\StatisticController.cs" />
-    <Compile Remove="Domain\AggregateModel\BookAggregate\Events\BookDeletedEvent.cs" />
-    <Compile Remove="Domain\AggregateModel\BookAggregate\Events\BookUpdatedEvent.cs" />
     <Compile Remove="Models\StatisticDto.cs" />
     <Compile Remove="Models\UpdateBookReq.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace my_app_backend.Domain.AggregateModel.BookAggregate.Events
+﻿namespace my_app_backend.Infrastructure.BookEventStores
 {
     public class BookSerializedEvent : IBookSerializedEvent
     {

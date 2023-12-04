@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Reflection;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using my_app_backend.Application.Commands;
@@ -21,9 +22,8 @@ namespace my_app_backend.Controllers.Writes
         }
 
         #region Test for write side
-        // GET api/<BookController>/5
-        [HttpGet("view-aggregate/{id}")]
-        public async Task<ActionResult<ApiResponse<BookAggregate>>> ViewAggregate(Guid id)
+        [HttpGet("view-aggregate/{id:guid}")]
+        public async Task<ActionResult<ApiResponse<BookAggregate>>> ViewAggregateAsync(Guid id)
         {
             var rs = await _mediator.Send(new BookAggregateQuery { Id = id });
             return Ok(rs.ToApiResponse());
@@ -31,19 +31,33 @@ namespace my_app_backend.Controllers.Writes
         #endregion
 
         #region Write side
-        // POST api/<BookController>
-        [HttpPost("create")]
+        [HttpPost]
         [Authorize(Roles = Constants.Roles.Admin)]
-        public async Task<ActionResult<ApiResponse<Guid>>> Post([FromBody] CreateBookCommand command)
+        public async Task<ActionResult<ApiResponse<Guid>>> CreateBookAsync([FromBody] CreateBookCommand command)
         {
             var rs = await _mediator.Send(command);
             return Ok(rs.ToApiResponse());
         }
 
-        // PUT api/<BookController>/5
+        [HttpPut("{id:guid}")]
+        [Authorize(Roles = Constants.Roles.Admin)]
+        public async Task<ActionResult<ApiResponse<Guid>>> UpdateBookAsync(Guid id, [FromBody] UpdateBookCommand command)
+        {
+            command.Id = id;
+            var rs = await _mediator.Send(command);
+            return Ok(rs.ToApiResponse());
+        }
+
+        [HttpDelete("{id:guid}")]
+        [Authorize(Roles = Constants.Roles.Admin)]
+        public async Task<ActionResult<ApiResponse<Guid>>> DeleteBookAsync(Guid id)
+        {
+            var rs = await _mediator.Send(new DeleteBookCommand(id));
+            return Ok(rs.ToApiResponse());
+        }
+
         [HttpPut("update-inventory")]
-        //[Authorize(Roles = Constants.Roles.Admin)]
-        public async Task<ActionResult<ApiResponse>> UpdateQuantity([FromBody] UpdateBookQuantityCommand command)
+        public async Task<ActionResult<ApiResponse>> UpdateQuantityAsync([FromBody] UpdateBookQuantityCommand command)
         {
             var rs = await _mediator.Send(command);
 

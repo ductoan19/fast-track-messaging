@@ -1,13 +1,12 @@
-﻿using Dapper;
+﻿using System.Data.SqlClient;
+using Dapper;
 using MediatR;
 using Microsoft.Extensions.Options;
 using my_app_backend.Domain.AggregateModel.BookAggregate;
 using my_app_backend.Domain.AggregateModel.BookAggregate.Events;
-using my_app_backend.Infrastructure.QueryRepositories;
 using Newtonsoft.Json;
-using System.Data.SqlClient;
 
-namespace my_app_backend.Infrastructure.Store
+namespace my_app_backend.Infrastructure.BookEventStores
 {
     public class BookEventStore : IBookEventStore
     {
@@ -47,7 +46,7 @@ namespace my_app_backend.Infrastructure.Store
 
                     events.Add(@event);
                 }
-                aggregate.Rehydate(events);
+                aggregate.Rehydrate(events);
 
                 return aggregate;
             }
@@ -58,7 +57,7 @@ namespace my_app_backend.Infrastructure.Store
             using (var connection = new SqlConnection(_writeConnectionString))
             {
                 await connection.OpenAsync();
-                var aggregateQuery = "SELECT Id, Version FROM BookAggregate WHERE Id = @id";
+                const string aggregateQuery = "SELECT Id, Version FROM BookAggregate WHERE Id = @id";
                 var dbAggregate = await connection.QueryFirstOrDefaultAsync<BookAggregate>(aggregateQuery, new { id = aggregate.Id });
                 if (dbAggregate != null && dbAggregate.Version != aggregate.Version)
                 {
@@ -72,16 +71,16 @@ namespace my_app_backend.Infrastructure.Store
 
                     if (dbAggregate == null)
                     {
-                        var insertAggregateCmd = "INSERT INTO post_write.dbo.BookAggregate(Id, Version, CreatedDate, ModifiedDate) VALUES (@Id, @Version, @CreatedDate, @ModifiedDate);";
+                        const string insertAggregateCmd = "INSERT INTO post_write.dbo.BookAggregate(Id, Version, CreatedDate, ModifiedDate) VALUES (@Id, @Version, @CreatedDate, @ModifiedDate);";
                         await connection.ExecuteAsync(insertAggregateCmd, aggregate, transaction: trans);
                     }
                     else
                     {
-                        var updateAggregateCmd = "UPDATE BookAggregate SET Version=@Version, ModifiedDate=@ModifiedDate WHERE Id=@Id;";
+                        const string updateAggregateCmd = "UPDATE BookAggregate SET Version=@Version, ModifiedDate=@ModifiedDate WHERE Id=@Id;";
                         await connection.ExecuteAsync(updateAggregateCmd, aggregate, transaction: trans);
                     }
 
-                    var serealizedEvents = events.Select(e => new BookSerializedEvent
+                    var serializedEvents = events.Select(e => new BookSerializedEvent
                     {
                         Id = e.Id,
                         Version = e.Version,
@@ -90,8 +89,9 @@ namespace my_app_backend.Infrastructure.Store
                         Type = e.GetType().AssemblyQualifiedName,
                         CreateDate = e.CreateDate
                     }).ToList();
-                    var insertEventCmd = "INSERT INTO post_write.dbo.BookEvent (Id, AggregateId, Version, CreateDate, [Data], [Type]) VALUES(@Id, @AggregateId, @Version, @CreateDate, @Data, @Type);";
-                    foreach (var se in serealizedEvents)
+
+                    const string insertEventCmd = "INSERT INTO post_write.dbo.BookEvent (Id, AggregateId, Version, CreateDate, [Data], [Type]) VALUES(@Id, @AggregateId, @Version, @CreateDate, @Data, @Type);";
+                    foreach (var se in serializedEvents)
                     {
                         await connection.ExecuteAsync(insertEventCmd, se, transaction: trans);
                     }

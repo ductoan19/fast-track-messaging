@@ -9,18 +9,19 @@ namespace my_app_backend.Application.EventHandlers
     public class BookQuantityUpdatedEventHandler : INotificationHandler<BookQuantityUpdatedEvent>
     {
         private readonly IBookRepository _bookRepository;
-        private readonly ILogger<PostCreatedEventHandler> _logger;
-        public BookQuantityUpdatedEventHandler(IBookRepository bookRepository, ILogger<PostCreatedEventHandler> logger)
+        private readonly ILogger<BookCreatedEventHandler> _logger;
+        public BookQuantityUpdatedEventHandler(IBookRepository bookRepository, ILogger<BookCreatedEventHandler> logger)
         {
             _bookRepository = bookRepository;
             _logger = logger;
         }
+
         public async Task Handle(BookQuantityUpdatedEvent notification, CancellationToken cancellationToken)
         {
             try
             {
-                var rs = await _bookRepository.GetById(notification.BookId);
-                if (!rs.IsSuccessful)
+                var rs = await _bookRepository.GetByIdAsync(notification.BookId);
+                if (!rs.IsSuccessful || rs.Data is null)
                 {
                     throw new Exception(rs.Message);
                 }
@@ -38,7 +39,7 @@ namespace my_app_backend.Application.EventHandlers
                 book.Quantity += notification.Quantity * notification.Direction;
                 book.InventoryHistories = histories;
 
-                var updateRs = await _bookRepository.Update(book);
+                var updateRs = await _bookRepository.UpdateAsync(book);
                 if (!updateRs.IsSuccessful)
                 {
                     throw new Exception(updateRs.Message);
@@ -46,7 +47,9 @@ namespace my_app_backend.Application.EventHandlers
             }
             catch (Exception ex)
             {
-                _logger.Equals($"Exception happened: sync to read repository fail for BookQuantityUpdatedEvent: {JsonConvert.SerializeObject(notification)}, ex: {ex}");
+                _logger.LogError(
+                    "Exception happened: sync to read repository fail for BookQuantityUpdatedEvent: {Notification}, ex: {Exception}",
+                    JsonConvert.SerializeObject(notification), ex);
             }
         }
     }

@@ -19,21 +19,19 @@ namespace my_app_backend.Controllers.Reads
         }
 
         #region Read side
-        // GET api/<BookController>/5
-        [HttpGet("get-by-id/{id}")]
-        public async Task<ActionResult<ApiResponse<BookDto>>> Get(Guid id)
+        [HttpGet]
+        [Authorize(Roles = $"{Constants.Roles.Admin},{Constants.Roles.Normal}")]
+        public async Task<ActionResult<ApiResponse<IEnumerable<BookDto>>>> Get([FromQuery] string name)
         {
-            var rs = await _bookRepository.GetById(id);
+            var rs = await _bookRepository.GetAllAsync(name);
 
             return Ok(rs.ToApiResponse());
         }
 
-        // GET: api/<BookController>
-        [HttpGet("get-all")]
-        [Authorize(Roles = $"{Constants.Roles.Admin},{Constants.Roles.Normal}")]
-        public async Task<ActionResult<ApiResponse<IEnumerable<BookDto>>>> Get([FromQuery] string? name)
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<ApiResponse<BookDto>>> Get(Guid id)
         {
-            var rs = await _bookRepository.GetAll(name);
+            var rs = await _bookRepository.GetByIdAsync(id);
 
             return Ok(rs.ToApiResponse());
         }

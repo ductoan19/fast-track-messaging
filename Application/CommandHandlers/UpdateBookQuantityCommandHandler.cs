@@ -17,7 +17,7 @@ namespace my_app_backend.Application.CommandHandlers
             try
             {
                 var aggregate = await _bookEventStore.Get(request.Id);
-                aggregate.UdateQuantity(request.Quantity, request.Direction, request.Note);
+                aggregate.UpdateQuantity(request.Quantity, request.Direction, request.Note);
                 await _bookEventStore.Save(aggregate);
                 return Result.Ok();
             }

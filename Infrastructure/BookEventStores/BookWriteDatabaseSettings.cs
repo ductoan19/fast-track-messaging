@@ -1,4 +1,4 @@
-﻿namespace my_app_backend.Infrastructure.QueryRepositories
+﻿namespace my_app_backend.Infrastructure.BookEventStores
 {
     public class BookWriteDatabaseSettings
     {

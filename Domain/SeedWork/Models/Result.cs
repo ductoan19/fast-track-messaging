@@ -5,9 +5,9 @@ namespace my_app_backend.Domain.SeedWork.Models
     public class Result<T>
     {
         public bool IsSuccessful { get; set; }
-        public string? ErrorCode { get; set; }
-        public string? Message { get; set; }
-        public T? Data { get; set; }
+        public string ErrorCode { get; set; }
+        public string Message { get; set; }
+        public T Data { get; set; }
 
         public static Result<T> Ok(T data)
         {

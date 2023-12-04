@@ -2,9 +2,8 @@
 
 namespace my_app_backend.Domain.AggregateModel.BookAggregate.Events
 {
-    public class BookCreatedEvent : BookEvent, IBookEvent
+    public class BookCreatedEvent : BookEvent
     {
-        public Guid Id { get; set; }
         public Guid BookId { get; set; }
         public int Quantity { get; set; }
         public string Type { get; set; }
